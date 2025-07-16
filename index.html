@@ -3,25 +3,89 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sip 'N' Play</title>
+    <title>Sip 'n' Play</title>
     <style>
         body {
+            margin: 0;
+            background-color: #3c403a;
+            color: #fff;
             font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #3c403a;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 40px;
+        }
+        .nav-button {
+            background-color: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .nav-button:hover {
+            background-color: #fff;
+            color: #3c403a;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 80px);
             text-align: center;
-            padding: 50px;
         }
-        h1 {
-            color: #2c3e50;
+        .input-field {
+            margin-top: 20px;
         }
-        p {
-            color: #555;
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: none;
+            width: 200px;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #8eff8b;
         }
     </style>
 </head>
 <body>
-    <h1>Üdvözöllek a Sip 'N' Play oldalán!</h1>
-    <p>Ez az oldal sikeresen működik a Netlify-on. 🎉</p>
+    <header>
+        <div class="logo">Sip 'n' Play</div>
+        <button class="nav-button">Szabályok</button>
+        <button class="nav-button">Eredmények</button>
+    </header>
+    <div class="container">
+        <h1>Tovább lépéshez írd be a kódot</h1>
+        <div class="input-field">
+            <input type="text" id="codeInput" placeholder="Írd be a kódot" oninput="checkCode()">
+        </div>
+        <div class="hidden" id="successMessage">Gratulálok!</div>
+    </div>
+
+    <script>
+        function checkCode() {
+            const input = document.getElementById('codeInput').value;
+            const message = document.getElementById('successMessage');
+            if (input === '1234') {
+                message.style.display = 'block';
+            } else {
+                message.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
