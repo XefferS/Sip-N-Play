@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. Rész - A feladvány</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <img src="1-8.png" alt="Feladvány ábrája">
+        <p>Helyezd el a számokat 1-től 8-ig a körökben úgy, hogy a köröket összekötő vonalak mentén sehol se legyenek egymás után következő számok! (Pl. a 2 mellett sem az 1, sem a 3 nem lehet).</p>
+        <p><strong>A kép csak illusztráció a feladványhoz. A megoldást a feladatlapon találjátok. Az ott kapott 4 jegyű kódot írjátok be!</strong></p>
+        
+        <input type="text" id="code-input" maxlength="4" placeholder="----">
+        <br>
+        <button id="check-button" class="button">Ellenőrzés</button>
+
+        <div id="error-message"></div>
+        <div id="timer-message"></div>
+    </main>
+
+    <script>
+        const correctCode = '7182';
+        const lockoutTimeMs = 3 * 60 * 1000; // 3 perc milliszekundumban
+
+        const codeInput = document.getElementById('code-input');
+        const checkButton = document.getElementById('check-button');
+        const errorMessage = document.getElementById('error-message');
+        const timerMessage = document.getElementById('timer-message');
+
+        let countdownInterval;
+
+        function checkLockout() {
+            const lockoutUntil = localStorage.getItem('lockoutUntil');
+            if (!lockoutUntil) return;
+
+            const remainingTime = lockoutUntil - Date.now();
+
+            if (remainingTime > 0) {
+                disableInputs();
+                startCountdown(remainingTime);
+            } else {
+                clearLockout();
+            }
+        }
+
+        function setLockout() {
+            const lockoutUntil = Date.now() + lockoutTimeMs;
+            localStorage.setItem('lockoutUntil', lockoutUntil);
+            disableInputs();
+            startCountdown(lockoutTimeMs);
+        }
+
+        function clearLockout() {
+            localStorage.removeItem('lockoutUntil');
+            enableInputs();
+            clearInterval(countdownInterval);
+            timerMessage.textContent = '';
+        }
+
+        function disableInputs() {
+            codeInput.disabled = true;
+            checkButton.disabled = true;
+            checkButton.classList.add('disabled');
+        }
+
+        function enableInputs() {
+            codeInput.disabled = false;
+            checkButton.disabled = false;
+            checkButton.classList.remove('disabled');
+            codeInput.value = '';
+            codeInput.focus();
+        }
+
+        function startCountdown(duration) {
+            let remaining = Math.ceil(duration / 1000);
+            
+            countdownInterval = setInterval(() => {
+                const minutes = Math.floor(remaining / 60);
+                const seconds = remaining % 60;
+                timerMessage.textContent = `Próbálkozz újra ${minutes}:${seconds.toString().padStart(2, '0')} múlva.`;
+
+                remaining--;
+
+                if (remaining < 0) {
+                    clearLockout();
+                }
+            }, 1000);
+        }
+
+        checkButton.addEventListener('click', () => {
+            errorMessage.textContent = ''; // Hibaüzenet törlése
+
+            if (codeInput.value === correctCode) {
+                localStorage.removeItem('lockoutUntil');
+                window.location.href = 'feladat.html';
+            } else {
+                errorMessage.textContent = 'Sikertelen próbálkozás!';
+                setLockout();
+            }
+        });
+        
+        checkLockout();
+    </script>
+</body>
+</html>
