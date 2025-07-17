@@ -1,126 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>A cipőben</title>
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-        }}
-        #page2, #page3, #tooSoonMessage {{
-            display: none;
-        }}
-        input[type="text"] {{
-            font-size: 20px;
-            padding: 5px;
-            width: 100px;
-        }}
-        button {{
-            font-size: 20px;
-            padding: 10px 20px;
-        }}
-        #countdown {{
-            font-weight: bold;
-            margin-top: 10px;
-        }}
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1. Rész - Kezdőlap</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- Page 1 -->
-<div id="page1">
-    <h1>A cipőben</h1>
-    <button onclick="goToPage2()">Tovább</button>
-</div>
-
-<!-- Page 2 -->
-<div id="page2">
-    <img src="1-8.png" alt="Puzzle" width="400">
-    <p>Helyezd el a számokat 18-ig a körökben úgy, hogy a köröket összekötő vonalak két oldalán sehol se legyenek egymás után következő számok! (pl.: a 2 mellett sem 1, sem 3 nem lehet)</p>
-    <input type="text" id="codeInput" maxlength="4" placeholder="Kód">
-    <button onclick="checkCode()">Ellenőrzés</button>
-    <div id="errorMessage" style="color:red;"></div>
-    <div id="countdown"></div>
-</div>
-
-<!-- Page 3 -->
-<div id="page3">
-    <p>A következő feladatot a játékmestertől vehetitek át! A feladat átvétele után nyomjatok a „Tovább” gombra!</p>
-    <button onclick="goToNext()" id="continueBtn">Tovább</button>
-    <div id="tooSoonMessage" style="color:orange;">Nem túl korai ez?</div>
-</div>
-
-<script>
-    let lockout = false;
-    let timer;
-    let allowContinue = false;
-
-    function goToPage2() {{
-        document.getElementById('page1').style.display = 'none';
-        document.getElementById('page2').style.display = 'block';
-
-        // Check if lockout is active from localStorage
-        const lockTime = localStorage.getItem('lockTime');
-        if (lockTime) {{
-            const diff = Date.now() - parseInt(lockTime);
-            if (diff < 180000) {{
-                const remaining = 180000 - diff;
-                startCountdown(remaining);
-            }} else {{
-                localStorage.removeItem('lockTime');
-            }}
-        }}
-    }}
-
-    function checkCode() {{
-        if (lockout) return;
-
-        const code = document.getElementById('codeInput').value;
-        if (code === "7182") {{
-            document.getElementById('page2').style.display = 'none';
-            document.getElementById('page3').style.display = 'block';
-            allowContinue = false;
-            setTimeout(() => {{
-                allowContinue = true;
-            }}, 30000);
-        }} else {{
-            lockout = true;
-            localStorage.setItem('lockTime', Date.now().toString());
-            document.getElementById('errorMessage').innerText = "Sikertelen próbálkozás!";
-            startCountdown(180000);
-        }}
-    }}
-
-    function startCountdown(duration) {{
-        let remaining = duration;
-        document.getElementById('codeInput').disabled = true;
-        const countdownEl = document.getElementById('countdown');
-        timer = setInterval(() => {{
-            const seconds = Math.floor(remaining / 1000);
-            countdownEl.innerText = `Próbálkozhatsz újra: ${seconds} másodperc`;
-            remaining -= 1000;
-            if (remaining <= 0) {{
-                clearInterval(timer);
-                countdownEl.innerText = '';
-                document.getElementById('codeInput').disabled = false;
-                document.getElementById('errorMessage').innerText = '';
-                lockout = false;
-                localStorage.removeItem('lockTime');
-            }}
-        }}, 1000);
-    }}
-
-    function goToNext() {{
-        if (!allowContinue) {{
-            document.getElementById('tooSoonMessage').style.display = 'block';
-        }} else {{
-            window.location.href = 'next.html'; // Továbblépés a következő oldalra
-        }}
-    }}
-</script>
-
+    <main>
+        <h1>A cipőben</h1>
+        <a href="rejtveny.html" class="button">Tovább</a>
+    </main>
 </body>
 </html>
