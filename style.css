@@ -1,7 +1,13 @@
-/* Alapbeállítások és a háttér átmenet */
+/* Alapbeállítások és az új háttérkép */
 body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-    background: linear-gradient(180deg, #8c52ff, #ff914d);
+    /* Az új háttérkép beállításai */
+    background-image: url('hatter.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
     color: #ffffff;
     display: flex;
     justify-content: center;
@@ -20,11 +26,11 @@ body {
     font-size: 1.5em;
     font-weight: bold;
     color: #ed5b72;
+    /* Csökkentett intenzitású neon effektus */
     text-shadow: 
-        0 0 5px #ed5b72,
-        0 0 10px #ed5b72,
-        0 0 20px #ed5b72,
-        0 0 40px #ed5b72;
+        0 0 4px #ed5b72,
+        0 0 8px #ed5b72,
+        0 0 12px #ed5b72;
     z-index: 100;
 }
 
@@ -61,11 +67,11 @@ img.task-image {
 /* Gombok stílusa */
 .button {
     display: inline-block;
-    background-color: #ffa800; /* Tovább gombok színe */
+    background-color: #ffa800;
     color: #2a2828;
     padding: 15px 35px;
     border: none;
-    border-radius: 25px; /* Jobban lekerekített sarkok */
+    border-radius: 25px;
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
@@ -116,11 +122,11 @@ img.task-image {
     font-size: 3.5em;
     font-weight: bold;
     color: #ed5b72;
+    /* Csökkentett intenzitású neon effektus */
     text-shadow: 
-        0 0 7px #ed5b72,
-        0 0 12px #ed5b72,
-        0 0 25px #ed5b72,
-        0 0 50px #ed5b72;
+        0 0 5px #ed5b72,
+        0 0 10px #ed5b72,
+        0 0 20px #ed5b72;
 }
 
 /* Büntetés képek (gorilla, kutya) konténere */
@@ -131,7 +137,7 @@ img.task-image {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    display: none; /* Alapból rejtett */
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 200;
