@@ -7,74 +7,75 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header class="page-header">Sip ’n’ Play Balaton Cup</header>
+    
+    <div id="gorilla-container" class="penalty-image-container">
+        <img src="gorilla.jpeg" alt="Büntetés">
+    </div>
+
     <main>
-        <img src="1-8.png" alt="Feladvány ábrája">
+        <img src="1-8.png" alt="Feladvány ábrája" class="task-image">
         <p>Helyezd el a számokat 1-től 8-ig a körökben úgy, hogy a köröket összekötő vonalak mentén sehol se legyenek egymás után következő számok! (Pl. a 2 mellett sem az 1, sem a 3 nem lehet).</p>
-        <p><strong>A kép csak illusztráció a feladványhoz. A megoldást a feladatlapon találjátok. Az ott kapott 4 jegyű kódot írjátok be!</strong></p>
         
-        <input type="text" id="code-input" maxlength="4" placeholder="----">
+        <input type="text" id="code-input" maxlength="4" placeholder="••••">
         <br>
         <button id="check-button" class="button">Ellenőrzés</button>
 
-        <div id="error-message"></div>
-        <div id="timer-message"></div>
+        <div class="message-area" id="error-message"></div>
+        <div class="message-area" id="timer-message"></div>
     </main>
 
     <script>
         const correctCode = '7182';
-        const lockoutTimeMs = 3 * 60 * 1000; // 3 perc milliszekundumban
+        const lockoutTimeMs = 3 * 60 * 1000;
 
         const codeInput = document.getElementById('code-input');
         const checkButton = document.getElementById('check-button');
         const errorMessage = document.getElementById('error-message');
         const timerMessage = document.getElementById('timer-message');
+        const gorillaContainer = document.getElementById('gorilla-container');
 
         let countdownInterval;
 
         function checkLockout() {
-            // A böngésző helyi tárhelyét (localStorage) használjuk,
-            // hogy az oldal újratöltése ne törölje a büntetést.
             const lockoutUntil = localStorage.getItem('lockoutUntil');
             if (!lockoutUntil) return;
 
             const remainingTime = lockoutUntil - Date.now();
 
             if (remainingTime > 0) {
-                disableInputs();
+                disableInputsAndShowGorilla();
                 startCountdown(remainingTime);
             } else {
                 clearLockout();
             }
         }
+        
+        function disableInputsAndShowGorilla() {
+            codeInput.disabled = true;
+            checkButton.disabled = true;
+            gorillaContainer.style.display = 'flex'; // Gorilla mutatása
+        }
 
         function setLockout() {
             const lockoutUntil = Date.now() + lockoutTimeMs;
             localStorage.setItem('lockoutUntil', lockoutUntil);
-            disableInputs();
+            disableInputsAndShowGorilla();
             startCountdown(lockoutTimeMs);
         }
 
         function clearLockout() {
             localStorage.removeItem('lockoutUntil');
-            enableInputs();
-            clearInterval(countdownInterval);
-            timerMessage.textContent = '';
-        }
-
-        function disableInputs() {
-            codeInput.disabled = true;
-            checkButton.disabled = true;
-            checkButton.classList.add('disabled');
-        }
-
-        function enableInputs() {
             codeInput.disabled = false;
             checkButton.disabled = false;
-            checkButton.classList.remove('disabled');
+            gorillaContainer.style.display = 'none'; // Gorilla elrejtése
+            clearInterval(countdownInterval);
+            timerMessage.textContent = '';
+            errorMessage.textContent = 'Lejárt a büntetés, próbáld újra!';
             codeInput.value = '';
             codeInput.focus();
         }
-
+        
         function startCountdown(duration) {
             let remaining = Math.ceil(duration / 1000);
             
@@ -82,20 +83,14 @@
                 const minutes = Math.floor(remaining / 60);
                 const seconds = remaining % 60;
                 timerMessage.textContent = `Próbálkozz újra ${minutes}:${seconds.toString().padStart(2, '0')} múlva.`;
-
                 remaining--;
-
-                if (remaining < 0) {
-                    clearLockout();
-                }
+                if (remaining < 0) clearLockout();
             }, 1000);
         }
 
         checkButton.addEventListener('click', () => {
-            errorMessage.textContent = ''; // Hibaüzenet törlése
-
+            errorMessage.textContent = '';
             if (codeInput.value === correctCode) {
-                // Siker esetén töröljük a büntetést és továbbítunk
                 localStorage.removeItem('lockoutUntil');
                 window.location.href = 'feladat.html';
             } else {
@@ -104,7 +99,6 @@
             }
         });
         
-        // Futtatás az oldal betöltésekor
         checkLockout();
     </script>
 </body>

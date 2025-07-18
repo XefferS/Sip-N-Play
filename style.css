@@ -1,79 +1,145 @@
+/* Alapbeállítások és a háttér átmenet */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(180deg, #8c52ff, #ff914d);
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
+/* Bal felső sarokban lévő fix fejléc */
+.page-header {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ed5b72;
+    text-shadow: 
+        0 0 5px #ed5b72,
+        0 0 10px #ed5b72,
+        0 0 20px #ed5b72,
+        0 0 40px #ed5b72;
+    z-index: 100;
+}
+
+/* Középen lévő sötét tartalomdoboz */
 main {
-    background-color: #ffffff;
+    background-color: #2a2828;
     padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     text-align: center;
     max-width: 600px;
-    width: 90%;
+    width: 100%;
 }
 
+/* Címek és szövegek stílusa */
 h1 {
     font-size: 2.5em;
-    color: #1c1e21;
     margin-bottom: 20px;
 }
 
 p {
     font-size: 1.1em;
     line-height: 1.6;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
-img {
+img.task-image {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
     margin-bottom: 20px;
 }
 
+/* Gombok stílusa */
 .button {
     display: inline-block;
-    background-color: #007bff;
-    color: #ffffff;
-    padding: 12px 25px;
+    background-color: #ffa800; /* Tovább gombok színe */
+    color: #2a2828;
+    padding: 15px 35px;
     border: none;
-    border-radius: 6px;
-    font-size: 1.1em;
+    border-radius: 25px; /* Jobban lekerekített sarkok */
+    font-size: 1.2em;
+    font-weight: bold;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .button:hover {
-    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 168, 0, 0.4);
 }
 
 .button:disabled {
-    background-color: #cccccc;
+    background-color: #555;
+    color: #888;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
+/* Kód beviteli mező */
 #code-input {
     padding: 10px;
-    font-size: 1.2em;
+    font-size: 1.5em;
     text-align: center;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    letter-spacing: 5px;
-    width: 150px;
+    border: 2px solid #ffa800;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #333;
+    color: #fff;
+    letter-spacing: 8px;
+    width: 180px;
 }
 
-#error-message, #timer-message {
-    color: #dc3545;
-    font-weight: bold;
+/* Hibajelző és visszaszámláló üzenetek */
+.message-area {
     margin-top: 15px;
-    height: 20px; /* Hely fenntartása, hogy ne ugráljon az elrendezés */
+    height: 40px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+#error-message { color: #ed5b72; }
+#timer-message { color: #ffa800; }
+
+/* A kezdőoldal speciális neon felirata */
+.neon-title {
+    font-size: 3.5em;
+    font-weight: bold;
+    color: #ed5b72;
+    text-shadow: 
+        0 0 7px #ed5b72,
+        0 0 12px #ed5b72,
+        0 0 25px #ed5b72,
+        0 0 50px #ed5b72;
+}
+
+/* Büntetés képek (gorilla, kutya) konténere */
+.penalty-image-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none; /* Alapból rejtett */
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.penalty-image-container img {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 15px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
 }
