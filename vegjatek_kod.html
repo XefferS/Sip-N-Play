@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9. Rész - Az utolsó próba</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="page-header">Sip ’n’ Play Balaton Cup</header>
+    <div id="penalty-container" class="penalty-image-container"><img src="gorilla.jpeg" alt="Büntetés"></div>
+    <main>
+        <h1 class="special-title">Végjáték!</h1>
+        <p class="instruction">Úgy tűnik közeledtek a vég(é)hez, egy utolsó próbatétel vár Rátok!</p>
+        <input type="text" id="code-input" class="code-input" maxlength="4" placeholder="••••">
+        <br>
+        <button id="check-button" class="button">Ellenőrzés</button>
+        <button id="confirm-button" class="button" style="display: none;">Biztos?</button>
+        <div class="message-area" id="error-message"></div>
+        <div class="message-area" id="timer-message"></div>
+    </main>
+    <script>
+        const confirmButton = document.getElementById('confirm-button');
+        const checkButton = document.getElementById('check-button');
+        
+        // A "Biztos?" gomb logikája
+        checkButton.addEventListener('click', () => {
+            confirmButton.style.display = 'inline-block';
+            checkButton.style.display = 'none';
+        });
+
+        // A közös penalty logicot itt nem használjuk a speciális gomb miatt.
+        // Itt helyben definiáljuk a logikát.
+        const correctCode = '0000';
+        const penaltyTime = 1 * 60 * 1000; // 1 perc
+        const codeInput = document.getElementById('code-input');
+        const errorMessage = document.getElementById('error-message');
+        const timerMessage = document.getElementById('timer-message');
+        const penaltyContainer = document.getElementById('penalty-container');
+        let countdownInterval;
+
+        function checkLockout() { /* ... a penalty_logic.js-ből másolva és adaptálva ... */ }
+        function disableInputsAndShowPenalty() {
+            codeInput.disabled = true;
+            confirmButton.style.display = 'none';
+            checkButton.style.display = 'inline-block';
+            checkButton.disabled = true;
+            if (penaltyContainer) penaltyContainer.style.display = 'flex';
+        }
+        function setLockout() { /* ... */
+            const lockoutUntil = Date.now() + penaltyTime;
+            localStorage.setItem('lockoutUntil', lockoutUntil);
+            disableInputsAndShowPenalty();
+            startCountdown(penaltyTime);
+        }
+        function clearLockout(showTryAgain = true) { /* ... */
+            localStorage.removeItem('lockoutUntil');
+            codeInput.disabled = false;
+            checkButton.disabled = false;
+            if (penaltyContainer) penaltyContainer.style.display = 'none';
+            clearInterval(countdownInterval);
+            timerMessage.textContent = '';
+            if (showTryAgain) errorMessage.textContent = 'Lejárt a büntetés, próbáld újra!';
+            codeInput.value = '';
+            codeInput.focus();
+        }
+        function startCountdown(duration) { /* ... */
+            let remaining = Math.ceil(duration / 1000);
+            const updateTimer = () => {
+                const minutes = Math.floor(remaining / 60);
+                const seconds = remaining % 60;
+                timerMessage.textContent = `Próbálkozz újra ${minutes}:${seconds.toString().padStart(2, '0')} múlva.`;
+                remaining--;
+                if (remaining < 0) clearLockout();
+            };
+            updateTimer();
+            countdownInterval = setInterval(updateTimer, 1000);
+        }
+
+        confirmButton.addEventListener('click', () => {
+            errorMessage.textContent = '';
+            if (codeInput.value === correctCode) {
+                localStorage.removeItem('lockoutUntil');
+                window.location.href = 'gratulalok.html';
+            } else {
+                errorMessage.textContent = 'Sikertelen próbálkozás!';
+                setLockout();
+            }
+        });
+
+        checkLockout(); // Ellenőrizzük a büntetést betöltéskor
+    </script>
+</body>
+</html>

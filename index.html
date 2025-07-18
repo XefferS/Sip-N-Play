@@ -8,40 +8,22 @@
 </head>
 <body>
     <main>
-        <h1 class="neon-title">Sip ’n’ Play Balaton Cup</h1>
-
-        <input type="password" id="code-input" maxlength="4" placeholder="••••">
+        <h1 class="main-title">Sip ’n’ Play Balaton Cup</h1>
+        <input type="password" id="code-input" class="code-input" maxlength="4" placeholder="••••">
         <br>
         <button id="start-button" class="button">Induljon a játék!</button>
-
         <div class="message-area" id="error-message"></div>
     </main>
-
     <script>
-        const correctCode = '1617';
-        const codeInput = document.getElementById('code-input');
-        const startButton = document.getElementById('start-button');
-        const errorMessage = document.getElementById('error-message');
-
-        // Gombnyomás eseménykezelője
-        startButton.addEventListener('click', () => {
-            // Ellenőrizzük, hogy a beírt kód helyes-e
-            if (codeInput.value === correctCode) {
-                // Ha helyes, átirányítunk a következő oldalra
+        document.getElementById('start-button').addEventListener('click', () => {
+            if (document.getElementById('code-input').value === '1617') {
                 window.location.href = 'kulcs.html';
             } else {
-                // Ha hibás, kiírjuk az üzenetet és töröljük a mezőt
-                errorMessage.textContent = 'Ezzel még várnod kell kicsit!';
-                codeInput.value = '';
+                document.getElementById('error-message').textContent = 'Ezzel még várnod kell kicsit!';
+                document.getElementById('code-input').value = '';
             }
         });
-
-        // Enter gomb lenyomására is működjön a kódellenőrzés
-        codeInput.addEventListener('keyup', (event) => {
-            if (event.key === 'Enter') {
-                startButton.click();
-            }
-        });
+        document.getElementById('code-input').addEventListener('keyup', e => e.key === 'Enter' && document.getElementById('start-button').click());
     </script>
 </body>
 </html>

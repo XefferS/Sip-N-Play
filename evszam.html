@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2. Rész - Számrejtvény</title>
+    <title>4. Rész - Évszám</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="page-header">Sip ’n’ Play Balaton Cup</header>
     <div id="penalty-container" class="penalty-image-container"><img src="gorilla.jpeg" alt="Büntetés"></div>
     <main>
-        <img src="1-8.png" alt="Feladvány ábrája" class="task-image">
-        <p class="instruction">Helyezd el a számokat 1-től 8-ig a körökben úgy, hogy a köröket összekötő vonalak mentén sehol se legyenek egymás után következő számok! (Pl. a 2 mellett sem az 1, sem a 3 nem lehet).</p>
-        <p class="hint">A megoldás a középső 4 szám!</p>
+        <h1>A megoldás az évszám</h1>
         <input type="text" id="code-input" class="code-input" maxlength="4" placeholder="••••">
         <br>
         <button id="check-button" class="button">Ellenőrzés</button>
@@ -21,10 +19,9 @@
     </main>
     <script src="penalty_logic.js"></script>
     <script>
-        // Oldal specifikus beállítások
         setupPenaltyPage({
             correctCode: '7182',
-            nextPage: 'feladat_atvetel_1.html',
+            nextPage: 'informatika.html',
             penaltyTime: 3 * 60 * 1000 // 3 perc
         });
     </script>
