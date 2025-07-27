@@ -5,14 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>9. Rész - Az utolsó próba</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="Favicon.png">
 </head>
 <body>
     <header class="page-header">Sip ’n’ Play Balaton Cup</header>
     <div id="penalty-container" class="penalty-image-container"><img src="gorilla.jpeg" alt="Büntetés"></div>
     <main>
         <h1 class="special-title">Végjáték!</h1>
-        <p class="instruction">Úgy tűnik közeledtek a vég(é)hez, egy utolsó próbatétel vár Rátok!</p>
-        <input type="text" id="code-input" class="code-input" maxlength="4" placeholder="••••">
+        <p class="instruction" style="white-space: pre-line;">Nem ruha, mégis méretet visel,
+Forog és sosem pihen.
+Földhöz bújik, s közben tart,
+Számokkal súg, amit tudni akarsz.
+Teste sötét, de titkot rejt,
+Írott, ha jól keresed, fejt.
+Nézd, görbe és mégis áll,
+Két szám a kulcs – ha jól olvasnál.
+Számolj csak, mit súg a vers,
+Kerekítve egészre a hányadosa felel.</p>
+        <input type="text" id="code-input" class="code-input" placeholder="?">
         <br>
         <button id="check-button" class="button">Ellenőrzés</button>
         <button id="confirm-button" class="button" style="display: none;">Biztos?</button>
@@ -20,26 +30,23 @@
         <div class="message-area" id="timer-message"></div>
     </main>
     <script>
+        // Ennek az oldalnak a logikája teljesen egyedi a "Biztos?" gomb miatt.
         const confirmButton = document.getElementById('confirm-button');
         const checkButton = document.getElementById('check-button');
-        
-        // A "Biztos?" gomb logikája
         checkButton.addEventListener('click', () => {
             confirmButton.style.display = 'inline-block';
             checkButton.style.display = 'none';
         });
 
-        // A közös penalty logicot itt nem használjuk a speciális gomb miatt.
-        // Itt helyben definiáljuk a logikát.
-        const correctCode = '0000';
-        const penaltyTime = 1 * 60 * 1000; // 1 perc
+        // Manuális penalty logic
+        const correctCode = '5';
+        const penaltyTime = 1 * 60 * 1000;
         const codeInput = document.getElementById('code-input');
         const errorMessage = document.getElementById('error-message');
         const timerMessage = document.getElementById('timer-message');
         const penaltyContainer = document.getElementById('penalty-container');
         let countdownInterval;
 
-        function checkLockout() { /* ... a penalty_logic.js-ből másolva és adaptálva ... */ }
         function disableInputsAndShowPenalty() {
             codeInput.disabled = true;
             confirmButton.style.display = 'none';
@@ -47,13 +54,13 @@
             checkButton.disabled = true;
             if (penaltyContainer) penaltyContainer.style.display = 'flex';
         }
-        function setLockout() { /* ... */
+        function setLockout() {
             const lockoutUntil = Date.now() + penaltyTime;
             localStorage.setItem('lockoutUntil', lockoutUntil);
             disableInputsAndShowPenalty();
             startCountdown(penaltyTime);
         }
-        function clearLockout(showTryAgain = true) { /* ... */
+        function clearLockout(showTryAgain = true) {
             localStorage.removeItem('lockoutUntil');
             codeInput.disabled = false;
             checkButton.disabled = false;
@@ -64,7 +71,7 @@
             codeInput.value = '';
             codeInput.focus();
         }
-        function startCountdown(duration) { /* ... */
+        function startCountdown(duration) {
             let remaining = Math.ceil(duration / 1000);
             const updateTimer = () => {
                 const minutes = Math.floor(remaining / 60);
@@ -79,7 +86,7 @@
 
         confirmButton.addEventListener('click', () => {
             errorMessage.textContent = '';
-            if (codeInput.value === correctCode) {
+            if (codeInput.value.trim() === correctCode) {
                 localStorage.removeItem('lockoutUntil');
                 window.location.href = 'gratulalok.html';
             } else {
@@ -87,8 +94,19 @@
                 setLockout();
             }
         });
-
-        checkLockout(); // Ellenőrizzük a büntetést betöltéskor
+        
+        // Futtatás betöltéskor
+        (() => {
+            const lockoutUntil = localStorage.getItem('lockoutUntil');
+            if (!lockoutUntil) return;
+            const remainingTime = lockoutUntil - Date.now();
+            if (remainingTime > 0) {
+                disableInputsAndShowPenalty();
+                startCountdown(remainingTime);
+            } else {
+                clearLockout(false);
+            }
+        })();
     </script>
 </body>
 </html>

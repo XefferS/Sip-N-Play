@@ -1,5 +1,6 @@
 function setupPenaltyPage(config) {
     const { correctCode, nextPage, penaltyTime, inputType = 'code' } = config;
+    const correctCodes = Array.isArray(correctCode) ? correctCode : [correctCode];
 
     const codeInput = document.getElementById('code-input');
     const checkButton = document.getElementById('check-button');
@@ -17,7 +18,7 @@ function setupPenaltyPage(config) {
             disableInputsAndShowPenalty();
             startCountdown(remainingTime);
         } else {
-            clearLockout(false); // Ne mutasson üzenetet újratöltéskor
+            clearLockout(false);
         }
     }
 
@@ -61,9 +62,10 @@ function setupPenaltyPage(config) {
 
     checkButton.addEventListener('click', () => {
         errorMessage.textContent = '';
+        const userInput = codeInput.value.trim();
         const isCorrect = inputType === 'text' 
-            ? codeInput.value.trim().toLowerCase() === correctCode.toLowerCase()
-            : codeInput.value === correctCode;
+            ? correctCodes.some(code => code.toLowerCase() === userInput.toLowerCase())
+            : correctCodes.includes(userInput);
 
         if (isCorrect) {
             localStorage.removeItem('lockoutUntil');
