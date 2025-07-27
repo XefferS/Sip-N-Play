@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Rész - Informatika</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="Favicon.png">
+</head>
+<body>
+    <div class="hamburger-menu">
+        <button class="hamburger-icon" id="hamburger-icon" aria-label="Menü megnyitása">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul class="menu-links" id="menu-links">
+            <li><a href="sorsolo.html">Sorsoló</a></li>
+        </ul>
+    </div>
+    <script>
+        document.getElementById('hamburger-icon').addEventListener('click', function() {
+            document.getElementById('menu-links').classList.toggle('show');
+        });
+    </script>
+
+    <header class="page-header">Sip ’n’ Play Balaton Cup</header>
+    <div id="penalty-container" class="penalty-image-container"><img src="gorilla.jpeg" alt="Büntetés"></div>
+    <main>
+        <p class="instruction">Itt most egy kis informatikai tudásra lesz szükségetek. Egy bizonyos informatikai módszerrel dekódoljátok az alábbi szöveget. A számok összege adja meg a kódot Nektek.</p>
+        <h2 class="special-title">SIP’n’PLAY</h2>
+        <p class="hint">A megoldáshoz kérjétek el a játékmester laptopját.</p>
+        <input type="text" id="code-input" class="code-input" maxlength="3" placeholder="•••">
+        <br>
+        <button id="check-button" class="button">Ellenőrzés</button>
+        <div class="message-area" id="error-message"></div>
+        <div class="message-area" id="timer-message"></div>
+    </main>
+    <script src="penalty_logic.js"></script>
+    <script>
+        setupPenaltyPage({
+            correctCode: '734',
+            nextPage: 'abra.html',
+            penaltyTime: 3 * 60 * 1000
+        });
+    </script>
+</body>
+</html>
