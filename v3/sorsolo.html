@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorsoló</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="Favicon.png">
+</head>
+<body>
+    <div class="hamburger-menu">
+        <button class="hamburger-icon" id="hamburger-icon" aria-label="Menü megnyitása">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul class="menu-links" id="menu-links">
+            <li><a href="sorsolo.html">Sorsoló</a></li>
+        </ul>
+    </div>
+    <script>
+        document.getElementById('hamburger-icon').addEventListener('click', function() {
+            document.getElementById('menu-links').classList.toggle('show');
+        });
+    </script>
+
+    <main>
+        <h1>Sorsoló</h1>
+
+        <div class="mode-switcher">
+            <button class="mode-button active" id="btn-egyszeru">Egyszerű</button>
+            <button class="mode-button" id="btn-parbaj">Párbaj</button>
+        </div>
+
+        <div class="sorsolo-container active" id="egyszeru-mode">
+            <p>Írd be a sorsolandó elemeket, soronként egyet.</p>
+            <textarea id="egyszeru-input" class="sorsolo-textarea" placeholder="Pl.:&#10;Anna&#10;Béla&#10;Cecil"></textarea>
+            <button id="draw-egyszeru" class="button">Sorsolás</button>
+            <div id="result-egyszeru" class="result-area">A nyertes...</div>
+        </div>
+
+        <div class="sorsolo-container" id="parbaj-mode">
+            <p>Írd be a sorsolandó elemeket, soronként egyet.</p>
+            <textarea id="parbaj-input" class="sorsolo-textarea" placeholder="Pl.:&#10;Kő&#10;Papír&#10;Olló&#10;Gyík"></textarea>
+            <button id="draw-parbaj" class="button">Sorsolás</button>
+            <div id="result-parbaj" class="result-area">A párbajozók...</div>
+        </div>
+    </main>
+    
+    <script>
+        const btnEgyszeru = document.getElementById('btn-egyszeru');
+        const btnParbaj = document.getElementById('btn-parbaj');
+        const egyszeruMode = document.getElementById('egyszeru-mode');
+        const parbajMode = document.getElementById('parbaj-mode');
+
+        // Módváltás
+        btnEgyszeru.addEventListener('click', () => {
+            btnEgyszeru.classList.add('active');
+            btnParbaj.classList.remove('active');
+            egyszeruMode.classList.add('active');
+            parbajMode.classList.remove('active');
+        });
+
+        btnParbaj.addEventListener('click', () => {
+            btnParbaj.classList.add('active');
+            btnEgyszeru.classList.remove('active');
+            parbajMode.classList.add('active');
+            egyszeruMode.classList.remove('active');
+        });
+
+        // "Egyszerű" sorsolás logikája
+        document.getElementById('draw-egyszeru').addEventListener('click', () => {
+            const resultDiv = document.getElementById('result-egyszeru');
+            const items = document.getElementById('egyszeru-input').value.split('\n').filter(item => item.trim() !== '');
+            
+            if (items.length < 1) {
+                resultDiv.textContent = 'Nincs mit sorsolni!';
+                return;
+            }
+
+            const winnerIndex = Math.floor(Math.random() * items.length);
+            resultDiv.textContent = `A nyertes: ${items[winnerIndex]}`;
+        });
+
+        // "Párbaj" sorsolás logikája
+        document.getElementById('draw-parbaj').addEventListener('click', () => {
+            const resultDiv = document.getElementById('result-parbaj');
+            const items = document.getElementById('parbaj-input').value.split('\n').filter(item => item.trim() !== '');
+
+            if (items.length < 2) {
+                resultDiv.textContent = 'Legalább két elem kell a párbajhoz!';
+                return;
+            }
+
+            // Fisher-Yates keverési algoritmus
+            for (let i = items.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [items[i], items[j]] = [items[j], items[i]];
+            }
+
+            resultDiv.innerHTML = `1. Párbajozó: ${items[0]}<br>2. Párbajozó: ${items[1]}`;
+        });
+    </script>
+</body>
+</html>

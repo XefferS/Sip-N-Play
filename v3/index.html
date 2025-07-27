@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sip 'n' Play Balaton Cup</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="Favicon.png">
+</head>
+<body>
+    <div class="hamburger-menu">
+        <button class="hamburger-icon" id="hamburger-icon" aria-label="Menü megnyitása">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul class="menu-links" id="menu-links">
+            <li><a href="sorsolo.html">Sorsoló</a></li>
+        </ul>
+    </div>
+    <script>
+        document.getElementById('hamburger-icon').addEventListener('click', function() {
+            document.getElementById('menu-links').classList.toggle('show');
+        });
+    </script>
+
+    <main>
+        <h1 class="main-title">Sip ’n’ <span id="play-button">Play</span> Balaton Cup</h1>
+        <h2>Fenékig!</h2>
+        <input type="password" id="code-input" class="code-input" maxlength="4" placeholder="••••">
+        <div class="message-area" id="error-message"></div>
+    </main>
+    <script>
+        document.getElementById('play-button').addEventListener('click', () => {
+            if (document.getElementById('code-input').value === '6969') {
+                window.location.href = 'rejtveny.html';
+            } else {
+                document.getElementById('error-message').textContent = 'Ezzel még várnod kell kicsit!';
+                document.getElementById('code-input').value = '';
+            }
+        });
+        document.getElementById('code-input').addEventListener('keyup', e => e.key === 'Enter' && document.getElementById('play-button').click());
+    </script>
+</body>
+</html>
