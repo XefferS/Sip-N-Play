@@ -1,4 +1,6 @@
-/* Alapbeállítások és a háttér átmenet */
+/* --- Teljes Style.css --- */
+
+/* --- Alap Stílusok és Elrendezés --- */
 body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     background: linear-gradient(180deg, #8c52ff, #ff914d);
@@ -13,7 +15,7 @@ body {
     overflow-x: hidden; /* Megakadályozza a vízszintes görgetést animációnál */
 }
 
-/* Oldalbetöltő animáció */
+/* --- Animációk --- */
 @keyframes contentFadeIn {
   from {
     opacity: 0;
@@ -25,18 +27,17 @@ body {
   }
 }
 
-/* Bal felső sarokban lévő fix fejléc */
+/* --- Fő Komponensek --- */
 .page-header {
     position: fixed;
     top: 20px;
     left: 20px;
     font-size: 1.5em;
     font-weight: bold;
-    color: #ffa800; /* Új szín */
+    color: #ffa800;
     z-index: 100;
 }
 
-/* Középen lévő sötét tartalomdoboz */
 main {
     background-color: #2a2828;
     padding: 40px;
@@ -45,20 +46,43 @@ main {
     text-align: center;
     max-width: 600px;
     width: 100%;
-    /* Animáció alkalmazása */
     animation: contentFadeIn 0.8s ease-out forwards;
 }
 
-h1 { font-size: 2.5em; margin-bottom: 20px; }
-.special-title { color: #ffa800; font-weight: bold; }
-p, .instruction { font-size: 1.1em; line-height: 1.6; margin-bottom: 30px; }
-.hint { font-size: 0.9em; color: #ccc; }
-pre { font-family: 'Courier New', monospace; font-size: 1.5em; line-height: 1.2; color: #ffa800; text-align: center; margin-bottom: 25px; white-space: pre-wrap; }
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
 
-/* Gombok stílusa */
+.special-title {
+    color: #ffa800;
+    font-weight: bold;
+}
+
+p, .instruction {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.hint {
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+pre {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.5em;
+    line-height: 1.2;
+    color: #ffa800;
+    text-align: center;
+    margin-bottom: 25px;
+    white-space: pre-wrap;
+}
+
 .button {
     display: inline-block;
-    background-color: #ffa800; /* Új szín */
+    background-color: #ffa800;
     color: #2a2828;
     padding: 15px 35px;
     border: none;
@@ -70,10 +94,20 @@ pre { font-family: 'Courier New', monospace; font-size: 1.5em; line-height: 1.2;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin: 5px;
 }
-.button:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 168, 0, 0.4); }
-.button:disabled { background-color: #555; color: #888; cursor: not-allowed; transform: none; box-shadow: none; }
 
-/* Kód beviteli mező */
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 168, 0, 0.4);
+}
+
+.button:disabled {
+    background-color: #555;
+    color: #888;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
 .code-input {
     padding: 10px;
     font-size: 1.5em;
@@ -87,38 +121,66 @@ pre { font-family: 'Courier New', monospace; font-size: 1.5em; line-height: 1.2;
     max-width: 180px;
     width: 100%;
 }
-.text-input { letter-spacing: normal; max-width: 400px; }
 
-/* Üzenetek */
-.message-area { margin-top: 15px; height: 40px; font-weight: bold; font-size: 1.1em; }
-#error-message { color: #ed5b72; }
-#timer-message { color: #ffa800; }
+.text-input {
+    letter-spacing: normal;
+    max-width: 400px;
+}
 
-/* Kezdőoldal speciális címe */
+.message-area {
+    margin-top: 15px;
+    height: 40px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+#error-message {
+    color: #ed5b72;
+}
+
+#timer-message {
+    color: #ffa800;
+}
+
+.penalty-image-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.penalty-image-container img {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 15px;
+}
+
+
+/* --- Kezdőoldal Speciális Stílusok --- */
 .main-title {
     font-size: 3em;
     font-weight: bold;
     color: #ffa800;
 }
+
 #play-button {
-    color: #ed5b72; /* Kiemelt szín a "Play"-nek */
+    color: #ed5b72;
     cursor: pointer;
     transition: text-shadow 0.3s;
 }
+
 #play-button:hover {
     text-shadow: 0 0 10px #ed5b72;
 }
 
-/* Büntetés képek konténere */
-.penalty-image-container {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none; justify-content: center; align-items: center; z-index: 200;
-}
-.penalty-image-container img { max-width: 80%; max-height: 80%; border-radius: 15px; }
-/* --- Sorsoló és Hamburger Menü Stílusok --- */
 
-/* Hamburger Ikon */
+/* --- Hamburger Menü Stílusok --- */
 .hamburger-menu {
     position: fixed;
     top: 15px;
@@ -142,12 +204,11 @@ pre { font-family: 'Courier New', monospace; font-size: 1.5em; line-height: 1.2;
     display: block;
     width: 100%;
     height: 3px;
-    background: #ffa800; /* Illeszkedik a dizájnhoz */
+    background: #ffa800;
     border-radius: 3px;
     transition: all 0.3s ease-in-out;
 }
 
-/* Legördülő menü */
 .menu-links {
     position: fixed;
     top: 60px;
@@ -183,14 +244,34 @@ pre { font-family: 'Courier New', monospace; font-size: 1.5em; line-height: 1.2;
     background-color: #3a3838;
 }
 
-/* Sorsoló Oldal Specifikus Stílusok */
+
+/* --- Sorsoló Új Dizájn és Stílusok --- */
 .mode-switcher {
+    position: relative;
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
     background-color: #3a3838;
     border-radius: 25px;
     padding: 5px;
+    margin-bottom: 40px;
+    z-index: 1;
+}
+
+.mode-switcher::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: calc(50% - 5px);
+    height: calc(100% - 10px);
+    background-color: #ffa800;
+    border-radius: 20px;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: -1;
+}
+
+.mode-switcher.parbaj-active::before {
+    transform: translateX(100%);
 }
 
 .mode-button {
@@ -203,99 +284,32 @@ pre { font-family: 'Courier New', monospace; font-size: 1.5em; line-height: 1.2;
     font-weight: bold;
     cursor: pointer;
     border-radius: 20px;
-    transition: all 0.4s ease;
-}
-
-.mode-button.active {
-    background-color: #ffa800;
-    color: #2a2828;
-    box-shadow: 0 2px 8px rgba(255, 168, 0, 0.3);
-}
-
-.sorsolo-container {
-    display: none; /* Alapból rejtett */
-    animation: contentFadeIn 0.5s; /* Animáció a váltáshoz */
-}
-
-.sorsolo-container.active {
-    display: block;
-}
-
-.sorsolo-textarea {
-    width: 95%;
-    height: 150px;
-    padding: 15px;
-    border-radius: 10px;
-    border: 2px solid #555;
-    background-color: #333;
-    color: #fff;
-    font-size: 1.1em;
-    margin-bottom: 20px;
-    resize: vertical;
-}
-
-.result-area {
-    margin-top: 25px;
-    padding: 20px;
-    background-color: #333;
-    border-radius: 10px;
-    min-height: 50px;
-    font-size: 1.3em;
-    font-weight: bold;
-    color: #ffa800;
-    line-height: 1.5;
-}/* --- Sorsoló és Hamburger Menü Stílusok (FRISSÍTETT) --- */
-
-/* ... a hamburger menü stílusai változatlanok ... */
-
-/* Sorsoló Oldal Specifikus Stílusok */
-.mode-switcher {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-    background-color: #3a3838;
-    border-radius: 25px;
-    padding: 5px;
-    position: relative;
+    transition: color 0.4s ease;
     z-index: 2;
 }
 
-.mode-button {
-    flex: 1;
-    padding: 10px 20px;
-    border: none;
-    background: transparent;
-    color: #ccc;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 20px;
-    transition: all 0.4s ease;
-}
-
 .mode-button.active {
-    background-color: #ffa800;
     color: #2a2828;
-    box-shadow: 0 2px 8px rgba(255, 168, 0, 0.3);
 }
 
-/* Konténer a simább váltáshoz */
 .sorsolo-wrapper {
     position: relative;
-    min-height: 350px; /* Magasság, hogy ne ugorjon az elrendezés */
+    min-height: 350px;
 }
 
 .sorsolo-container {
     position: absolute;
     width: 100%;
-    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    opacity: 0;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transform: scale(0.98);
+    pointer-events: none;
 }
 
-/* Alapból rejtett, inaktív állapot */
-.sorsolo-container:not(.active) {
-    opacity: 0;
-    transform: translateY(10px);
-    pointer-events: none;
+.sorsolo-container.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
 }
 
 .sorsolo-textarea {
@@ -309,44 +323,4 @@ pre { font-family: 'Courier New', monospace; font-size: 1.5em; line-height: 1.2;
     font-size: 1.1em;
     margin-bottom: 20px;
     resize: vertical;
-}
-
-/* Eredményeket megjelenítő terület */
-.result-area {
-    margin-top: 25px;
-    padding: 20px;
-    background-color: #333;
-    border-radius: 10px;
-    min-height: 80px; /* Magasság az animációnak */
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #ffa800;
-    line-height: 1.5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
-
-/* Párbaj eredmény animációk */
-@keyframes slideAndFadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes vsFadeIn {
-    from { opacity: 0; transform: scale(0.5); }
-    to { opacity: 1; transform: scale(1); }
-}
-.duel-result .challenger, .duel-result .vs {
-    opacity: 0; /* Animációhoz alapból átlátszó */
-}
-.duel-result.animate .challenger:nth-child(1) {
-    animation: slideAndFadeIn 0.5s 0.1s ease-out forwards;
-}
-.duel-result.animate .vs {
-    animation: vsFadeIn 0.4s 0.4s ease-out forwards;
-    color: #ed5b72;
-}
-.duel-result.animate .challenger:nth-child(3) {
-    animation: slideAndFadeIn 0.5s 0.7s ease-out forwards;
-}
+    transition: border-color 0.3s, box-shadow 0.3s

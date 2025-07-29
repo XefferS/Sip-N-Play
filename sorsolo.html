@@ -27,7 +27,7 @@
     <main>
         <h1>Sorsoló</h1>
 
-        <div class="mode-switcher">
+        <div class="mode-switcher" id="mode-switcher">
             <button class="mode-button active" id="btn-egyszeru">Egyszerű</button>
             <button class="mode-button" id="btn-parbaj">Párbaj</button>
         </div>
@@ -54,6 +54,7 @@
     </main>
     
     <script>
+        const modeSwitcher = document.getElementById('mode-switcher');
         const btnEgyszeru = document.getElementById('btn-egyszeru');
         const btnParbaj = document.getElementById('btn-parbaj');
         const egyszeruMode = document.getElementById('egyszeru-mode');
@@ -61,6 +62,7 @@
 
         // Módváltás
         btnEgyszeru.addEventListener('click', () => {
+            modeSwitcher.classList.remove('parbaj-active');
             btnEgyszeru.classList.add('active');
             btnParbaj.classList.remove('active');
             egyszeruMode.classList.add('active');
@@ -68,35 +70,38 @@
         });
 
         btnParbaj.addEventListener('click', () => {
+            modeSwitcher.classList.add('parbaj-active');
             btnParbaj.classList.add('active');
             btnEgyszeru.classList.remove('active');
             parbajMode.classList.add('active');
             egyszeruMode.classList.remove('active');
         });
 
-        // --- ANIMÁCIÓS FÜGGVÉNYEK ---
+        // --- ANIMÁCIÓS FÜGGVÉNY ---
 
-        // Karakterpörgető animáció ("Egyszerű" mód)
+        // Karakterpörgető animáció (hosszabbítva)
         function animateScramble(element, final_text) {
             let iteration = 0;
-            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?#%";
+            const alphabet = "abcdefghijklmnopqrstuvwxyz!?#%*";
+            element.classList.remove('active'); // Előző "aktív" állapot törlése
             
             const interval = setInterval(() => {
-                element.innerText = final_text.split("")
+                element.innerHTML = `<span class="winner">${final_text.split("")
                     .map((letter, index) => {
                         if(index < iteration) {
                             return final_text[index];
                         }
                         return alphabet[Math.floor(Math.random() * alphabet.length)];
                     })
-                    .join("");
+                    .join("")}</span>`;
 
                 if(iteration >= final_text.length) {
                     clearInterval(interval);
+                    element.classList.add('active'); // Eredmény kiemelése
                 }
                 
-                iteration += 1 / 2;
-            }, 40);
+                iteration += 1 / 4; // Lassabb felfedés a hosszabb animációért
+            }, 50); // Kicsit lassabb frissítés
         }
 
         // --- SORSOLÁS LOGIKÁK ---
@@ -106,14 +111,16 @@
             const resultDiv = document.getElementById('result-egyszeru');
             const items = document.getElementById('egyszeru-input').value.split('\n').filter(item => item.trim() !== '');
             
-            resultDiv.textContent = ''; // Töröljük az előzőt
+            resultDiv.textContent = '';
+            resultDiv.classList.remove('active');
+
             if (items.length < 1) {
                 resultDiv.textContent = 'Nincs mit sorsolni!';
                 return;
             }
 
             const winnerIndex = Math.floor(Math.random() * items.length);
-            animateScramble(resultDiv, items[winnerIndex].trim()); // Animáció indítása
+            animateScramble(resultDiv, items[winnerIndex].trim());
         });
 
         // "Párbaj" sorsolás
@@ -122,8 +129,7 @@
             const challenger1 = document.getElementById('challenger1');
             const challenger2 = document.getElementById('challenger2');
 
-            // Animáció resetelése
-            resultDiv.classList.remove('animate');
+            resultDiv.classList.remove('animate', 'active');
             challenger1.textContent = '';
             challenger2.textContent = '';
 
@@ -134,7 +140,6 @@
                 return;
             }
 
-            // Keverés és a két legjobb kiválasztása
             for (let i = items.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [items[i], items[j]] = [items[j], items[i]];
@@ -142,9 +147,8 @@
             
             challenger1.textContent = items[0].trim();
             challenger2.textContent = items[1].trim();
-
-            // Animáció indítása egy apró késleltetéssel
-            setTimeout(() => resultDiv.classList.add('animate'), 50);
+            
+            setTimeout(() => resultDiv.classList.add('animate', 'active'), 50);
         });
     </script>
 </body>
