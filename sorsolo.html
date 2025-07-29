@@ -32,18 +32,24 @@
             <button class="mode-button" id="btn-parbaj">Párbaj</button>
         </div>
 
-        <div class="sorsolo-container active" id="egyszeru-mode">
-            <p>Írd be a sorsolandó elemeket, soronként egyet.</p>
-            <textarea id="egyszeru-input" class="sorsolo-textarea" placeholder="Pl.:&#10;Anna&#10;Béla&#10;Cecil"></textarea>
-            <button id="draw-egyszeru" class="button">Sorsolás</button>
-            <div id="result-egyszeru" class="result-area">A nyertes...</div>
-        </div>
+        <div class="sorsolo-wrapper">
+            <div class="sorsolo-container active" id="egyszeru-mode">
+                <p>Írd be a sorsolandó elemeket, soronként egyet.</p>
+                <textarea id="egyszeru-input" class="sorsolo-textarea"></textarea>
+                <button id="draw-egyszeru" class="button">Sorsolás</button>
+                <div id="result-egyszeru" class="result-area"></div>
+            </div>
 
-        <div class="sorsolo-container" id="parbaj-mode">
-            <p>Írd be a sorsolandó elemeket, soronként egyet.</p>
-            <textarea id="parbaj-input" class="sorsolo-textarea" placeholder="Pl.:&#10;Kő&#10;Papír&#10;Olló&#10;Gyík"></textarea>
-            <button id="draw-parbaj" class="button">Sorsolás</button>
-            <div id="result-parbaj" class="result-area">A párbajozók...</div>
+            <div class="sorsolo-container" id="parbaj-mode">
+                <p>Írd be a sorsolandó elemeket, soronként egyet.</p>
+                <textarea id="parbaj-input" class="sorsolo-textarea"></textarea>
+                <button id="draw-parbaj" class="button">Sorsolás</button>
+                <div id="result-parbaj" class="result-area duel-result">
+                    <span class="challenger" id="challenger1"></span>
+                    <span class="vs">vs</span>
+                    <span class="challenger" id="challenger2"></span>
+                </div>
+            </div>
         </div>
     </main>
     
@@ -68,37 +74,77 @@
             egyszeruMode.classList.remove('active');
         });
 
-        // "Egyszerű" sorsolás logikája
+        // --- ANIMÁCIÓS FÜGGVÉNYEK ---
+
+        // Karakterpörgető animáció ("Egyszerű" mód)
+        function animateScramble(element, final_text) {
+            let iteration = 0;
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!?#%";
+            
+            const interval = setInterval(() => {
+                element.innerText = final_text.split("")
+                    .map((letter, index) => {
+                        if(index < iteration) {
+                            return final_text[index];
+                        }
+                        return alphabet[Math.floor(Math.random() * alphabet.length)];
+                    })
+                    .join("");
+
+                if(iteration >= final_text.length) {
+                    clearInterval(interval);
+                }
+                
+                iteration += 1 / 2;
+            }, 40);
+        }
+
+        // --- SORSOLÁS LOGIKÁK ---
+
+        // "Egyszerű" sorsolás
         document.getElementById('draw-egyszeru').addEventListener('click', () => {
             const resultDiv = document.getElementById('result-egyszeru');
             const items = document.getElementById('egyszeru-input').value.split('\n').filter(item => item.trim() !== '');
             
+            resultDiv.textContent = ''; // Töröljük az előzőt
             if (items.length < 1) {
                 resultDiv.textContent = 'Nincs mit sorsolni!';
                 return;
             }
 
             const winnerIndex = Math.floor(Math.random() * items.length);
-            resultDiv.textContent = `A nyertes: ${items[winnerIndex]}`;
+            animateScramble(resultDiv, items[winnerIndex].trim()); // Animáció indítása
         });
 
-        // "Párbaj" sorsolás logikája
+        // "Párbaj" sorsolás
         document.getElementById('draw-parbaj').addEventListener('click', () => {
             const resultDiv = document.getElementById('result-parbaj');
+            const challenger1 = document.getElementById('challenger1');
+            const challenger2 = document.getElementById('challenger2');
+
+            // Animáció resetelése
+            resultDiv.classList.remove('animate');
+            challenger1.textContent = '';
+            challenger2.textContent = '';
+
             const items = document.getElementById('parbaj-input').value.split('\n').filter(item => item.trim() !== '');
 
             if (items.length < 2) {
-                resultDiv.textContent = 'Legalább két elem kell a párbajhoz!';
+                challenger1.textContent = 'Legalább két elem kell!';
                 return;
             }
 
-            // Fisher-Yates keverési algoritmus
+            // Keverés és a két legjobb kiválasztása
             for (let i = items.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [items[i], items[j]] = [items[j], items[i]];
             }
+            
+            challenger1.textContent = items[0].trim();
+            challenger2.textContent = items[1].trim();
 
-            resultDiv.innerHTML = `1. Párbajozó: ${items[0]}<br>2. Párbajozó: ${items[1]}`;
+            // Animáció indítása egy apró késleltetéssel
+            setTimeout(() => resultDiv.classList.add('animate'), 50);
         });
     </script>
 </body>

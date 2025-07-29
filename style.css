@@ -244,4 +244,109 @@ pre { font-family: 'Courier New', monospace; font-size: 1.5em; line-height: 1.2;
     font-weight: bold;
     color: #ffa800;
     line-height: 1.5;
+}/* --- Sorsoló és Hamburger Menü Stílusok (FRISSÍTETT) --- */
+
+/* ... a hamburger menü stílusai változatlanok ... */
+
+/* Sorsoló Oldal Specifikus Stílusok */
+.mode-switcher {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: #3a3838;
+    border-radius: 25px;
+    padding: 5px;
+    position: relative;
+    z-index: 2;
+}
+
+.mode-button {
+    flex: 1;
+    padding: 10px 20px;
+    border: none;
+    background: transparent;
+    color: #ccc;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: all 0.4s ease;
+}
+
+.mode-button.active {
+    background-color: #ffa800;
+    color: #2a2828;
+    box-shadow: 0 2px 8px rgba(255, 168, 0, 0.3);
+}
+
+/* Konténer a simább váltáshoz */
+.sorsolo-wrapper {
+    position: relative;
+    min-height: 350px; /* Magasság, hogy ne ugorjon az elrendezés */
+}
+
+.sorsolo-container {
+    position: absolute;
+    width: 100%;
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+}
+
+/* Alapból rejtett, inaktív állapot */
+.sorsolo-container:not(.active) {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+
+.sorsolo-textarea {
+    width: 95%;
+    height: 150px;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #555;
+    background-color: #333;
+    color: #fff;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    resize: vertical;
+}
+
+/* Eredményeket megjelenítő terület */
+.result-area {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    min-height: 80px; /* Magasság az animációnak */
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ffa800;
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Párbaj eredmény animációk */
+@keyframes slideAndFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes vsFadeIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+.duel-result .challenger, .duel-result .vs {
+    opacity: 0; /* Animációhoz alapból átlátszó */
+}
+.duel-result.animate .challenger:nth-child(1) {
+    animation: slideAndFadeIn 0.5s 0.1s ease-out forwards;
+}
+.duel-result.animate .vs {
+    animation: vsFadeIn 0.4s 0.4s ease-out forwards;
+    color: #ed5b72;
+}
+.duel-result.animate .challenger:nth-child(3) {
+    animation: slideAndFadeIn 0.5s 0.7s ease-out forwards;
 }
